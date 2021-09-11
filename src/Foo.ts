@@ -1,8 +1,15 @@
-import { Service } from "../lib/simpleIoCLib/decorators/ServiceDecorator";
+import { Injectable } from "../lib/simpleIoCLib/decorators/InjectableDecorator";
+import { Car } from "./Car";
 
-@Service()
+@Injectable()
 export class Foo {
+    
+    constructor( public car: Car ) {
+
+    }
+
     doFooStuff() {
         console.log('foo');
     }
+
 }

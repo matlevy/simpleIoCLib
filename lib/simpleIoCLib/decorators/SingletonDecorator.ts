@@ -4,7 +4,7 @@ import { GenericClassDecorator } from "./GenericClassDecorator";
 import 'reflect-metadata';
 import { SimpleIoC } from "../SimpleIoC";
 
-export const Service = (): GenericClassDecorator<Type<object>> => {
+export const Singleton = (): GenericClassDecorator<Type<object>> => {
     return (target: Type<object>) => {
         const tokens = Reflect.getMetadata( 'design:paramtypes', target ) || [];
         const dependancies = tokens.map( 
@@ -14,6 +14,6 @@ export const Service = (): GenericClassDecorator<Type<object>> => {
                     definition: token
                 }
             } );
-        SimpleIoC.register( target.name, target, dependancies );
+        SimpleIoC.singleton( target.name, target, dependancies );
     };
 };

@@ -10,6 +10,7 @@ export interface RegistryDefinition {
 export const SimpleIoC = new class {
 
     private _registry: Map<string, any> = new Map<string, any>();
+    private _singletons: Map<string, any> = new Map<string, any>();
 
     resolve<T>(target: Type<any>): T {
 
@@ -21,6 +22,17 @@ export const SimpleIoC = new class {
             )
         })
 
+        if (definition.singleton) {
+            const _s = this._singletons.get( definition.key );
+            if (_s) {
+                return _s;
+            } else {
+                const _i:any = new target( ...injections );
+                this._singletons.set( definition.key, _i );
+                return _i;
+            }
+        }
+            
         return new target( ...injections );
     }
 
