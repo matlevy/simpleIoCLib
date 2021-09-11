@@ -4,6 +4,10 @@ import { GenericClassDecorator } from "./GenericClassDecorator";
 import 'reflect-metadata';
 import { SimpleIoC } from "../SimpleIoC";
 
+/** 
+ * Singleton Class decorator. To implement decorate the class with the 'Singleton()'
+ * decorator.
+ */
 export const Singleton = (): GenericClassDecorator<Type<object>> => {
     return (target: Type<object>) => {
         const tokens = Reflect.getMetadata( 'design:paramtypes', target ) || [];

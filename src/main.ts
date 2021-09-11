@@ -6,6 +6,9 @@ import { Car } from "./Car";
 
 export const Main = new class {
     init():void {
+
+        /// This is a simple implementation demonstration
+        
         const foobar = SimpleIoC.resolve<FooBar>( FooBar );
         
         foobar.bar.doBarStuff();

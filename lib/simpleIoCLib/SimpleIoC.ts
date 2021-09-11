@@ -7,14 +7,28 @@ export interface RegistryDefinition {
     singleton: boolean;
 }
 
+/**
+ * A very simple IoC container that allows for classes and singltons
+ */
 export const SimpleIoC = new class {
 
     private _registry: Map<string, any> = new Map<string, any>();
     private _singletons: Map<string, any> = new Map<string, any>();
 
+    /**
+     * Resolves a target class given the class reference, instantiates and injects
+     * dependancies into the conxtructor.
+     * 
+     * @param target The target class reference
+     * @returns Instantiated object instance
+     */
     resolve<T>(target: Type<any>): T {
+        return this.resolveByString( target.name );
+    }
 
-        const definition: RegistryDefinition = this._registry.get( target.name );
+    resolveByString<T>( key:string ): T {
+
+        const definition: RegistryDefinition = this._registry.get( key );
 
         const injections = definition.dependancies.map( (token:RegistryDefinition) => {
             return SimpleIoC.resolve(
@@ -27,13 +41,13 @@ export const SimpleIoC = new class {
             if (_s) {
                 return _s;
             } else {
-                const _i:any = new target( ...injections );
+                const _i:any = new definition.definition( ...injections );
                 this._singletons.set( definition.key, _i );
                 return _i;
             }
         }
             
-        return new target( ...injections );
+        return new definition.definition( ...injections );
     }
 
     /**
