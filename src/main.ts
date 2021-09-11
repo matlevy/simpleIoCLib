@@ -1,10 +1,16 @@
-import { Container } from "../lib/simpleIoCLib/container";
+import { Container } from "../lib/simpleIoCLib/Container";
+import { FooBar } from "./FooBar";
 
-export class Main {
+import 'reflect-metadata';
+
+export const Main = new class {
     init():void {
         console.log('hello world');
-        new Container();
+        const foobar = Container.resolve<FooBar>( FooBar );
+        foobar.bar.doBarStuff();
+        foobar.foo.doFooStuff();
+        foobar.bar.foo.doFooStuff();
     }
 }
 
-new Main().init();
+Main.init();
